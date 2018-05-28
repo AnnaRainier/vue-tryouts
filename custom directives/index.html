@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>welcome to Vue</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div id="mydiv" v-cooldiv:first.shadow.smoked="90">
+            <span class="first">Here is: </span>
+            <span class="second">My cool directive</span>
+        </div>
+    </div>
+
+    <script>
+
+        Vue.directive('cooldiv', {
+            bind: function (el, binding, vnode) {
+                el.style.background = 'cyan';
+                let fontSize = 70;
+            
+                if (binding.value) fontSize = binding.value;
+
+                if (binding.arg) {
+                    el.getElementsByClassName(binding.arg)[0].style.fontSize = fontSize + 'px';
+                } else el.style.fontSize = fontSize + 'px';
+
+                if(binding.modifiers['shadow']) {
+                    el.style.textShadow = "5px 7px 5px rgba(0,0,0,0.3)"
+                }
+                if(binding.modifiers['smoked']) {
+                    setTimeout(() => {el.className += 'cool'},2000)
+                }
+                
+  }
+})
+
+        var app = new Vue({
+            el: '#app',
+        })
+    </script>
+
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Finger+Paint);
+        
+        #mydiv {
+            overflow: hidden;
+            font: 5vw/100vh "Finger Paint";
+            text-align: center;
+        }
+
+        .cool span {
+            color: transparent;
+            display: inline-block;
+            text-shadow: 0 0 0 black;
+            -webkit-animation: smoky 5s 3s both;
+                    animation: smoky 5s 3s both;
+        }
+        .cool span:nth-child(even) {
+            -webkit-animation-name: smoky-mirror;
+                    animation-name: smoky-mirror;
+        }
+
+    </style>
+    
+</body>
+</html>

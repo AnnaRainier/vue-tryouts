@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Hello Vue</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script   src="https://code.jquery.com/jquery-3.3.1.js"   integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="   crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <div id="app">
+            <form>
+                    <div class="form-group">
+                      <label for="name">Enter your name </label>
+                      <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter name" v-model="userInfo.name">
+                    </div>
+                    <div class="form-group">
+                      <label for="surname">Surname</label>
+                      <input type="text" class="form-control" id="surname" placeholder="surname" v-model="userInfo.surname">
+                    </div>
+                    <div class="form-group">
+                            <label for="own-template">html template</label>
+                            <textarea class="form-control" id="own-template" placeholder="please, enter html template" v-model="userInfo.template"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" v-on:click.prevent="getJoke">Submit</button>
+                  </form>
+            <div class="description" v-if="userData">
+                <h2>Hello, {{ userFullName }}</h2>
+                <div class="templ" v-html="userInfo.template"></div>
+                <div class="joke"> {{ joke }}</div>
+            </div>
+    </div>
+    <script>
+        new Vue ({
+            el: "#app",
+            data: {
+                userInfo: {
+                    name: '',
+                    surname: '',
+                    template: ''
+                },
+                userData: false,
+                joke: '',
+            },
+            methods: {
+                getJoke: function () {
+                    this.userData = true;
+                    var self = this;
+                    let url = 'http://api.icndb.com/jokes/random';
+                    $.get(url, function (data) {
+                        console.log(data['value']['joke']);
+                        return self.joke = data['value']['joke'];
+
+                    });
+                   // console.log(this.joke);
+                    
+                }
+            },
+            computed: {
+                userFullName: function () {
+                    return this.userInfo.name + ' ' + this.userInfo.surname;
+                }
+            },
+            watch: {
+ 
+            }
+
+        })
+    </script>
+    
+</body>
+</html>
