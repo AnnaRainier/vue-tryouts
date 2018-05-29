@@ -21,18 +21,24 @@ export default {
     beforeCreate() {
         console.log('before create');
     },
-    created() {
-        ProductService.$on("viewDetails", (selectedProduct) => {
-            this.product = selectedProduct;
-            console.log(this.product);
-        })
-    },
     mounted() {
-        ProductService.viewDetails(this.$route.params.id);
+        this.loadProduct(this.$route.params.id)
     },
     watch: {
         '$route.params.id': (id) => {
-            ProductService.viewDetails(id);
+            this.loadProduct(id)
+        }
+    },
+    methods: {
+        loadProduct(id) {
+            this.$http.get('https://5b0d61788126c90014997602.mockapi.io/products/' + id)
+        .then(response => {
+            console.log(response);
+            this.product = response.data;
+        })
+        .catch(error => {
+            console.log(error)
+        })
         }
     }
     

@@ -21,9 +21,18 @@ export default {
         ProductItem
     },
     created() {
+        // axios.get('https://5b0d61788126c90014997602.mockapi.io/products')
+        // .then(response => {
+        //     console.log(response);
+        //     this.products = response.data;
+        // })
+        // .catch(error => {
+        //     console.log(error)
+        // })
         this.$http.get('https://5b0d61788126c90014997602.mockapi.io/products')
         .then(response => {
-            console.log(response)
+            console.log(response);
+            this.products = response.data;
         })
         .catch(error => {
             console.log(error)

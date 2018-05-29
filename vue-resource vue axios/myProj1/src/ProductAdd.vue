@@ -29,8 +29,16 @@ export default {
     },
     methods: {
         addProd() {
-            ProductService.addProduct(this.product.title, this.product.price, this.product.quantity)
+            this.$http.post('https://5b0d61788126c90014997602.mockapi.io/products/', this.product)
+            .then(response => {
+            console.log(response);
             this.$router.push('/');
+        })
+        .catch(error => {
+            console.log(error)
+        })
+            //ProductService.addProduct(this.product.title, this.product.price, this.product.quantity)
+            
             //this.$router.push({name:'product-details', params: {id: this.product.id}});
         }
     }
